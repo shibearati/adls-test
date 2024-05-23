@@ -1,0 +1,18 @@
+{
+    "database": {
+      "host": "example.database.azure.com",
+      "port": 1433,
+      "username": "admin",
+      "password": "password123",
+      "database_name": "example_db"
+    },
+    "api": {
+      "base_url": "https://api.example.com",
+      "api_key": "your_api_key_here"
+    },
+    "logging": {
+      "level": "info",
+      "file_path": "/var/log/myapp.log"
+    }
+  }
+  

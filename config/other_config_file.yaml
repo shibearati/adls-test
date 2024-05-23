@@ -1,0 +1,12 @@
+server:
+  host: example.server.com
+  port: 8080
+  protocol: https
+
+services:
+  - name: service1
+    endpoint: https://service1.example.com/api
+    timeout: 30
+  - name: service2
+    endpoint: https://service2.example.com/api
+    timeout: 60
