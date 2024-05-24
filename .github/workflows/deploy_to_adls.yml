@@ -16,10 +16,41 @@ jobs:
       - name: Echo REPO_FOLDER_PATH
         run: echo "${{ secrets.REPO_FOLDER_PATH }}"
 
-      - name: Upload files to Azure Blob Storage
-        uses: azure/CLI@v1
+      - name: Log in to Azure
+        uses: azure/login@v1
         with:
-          azcliversion: latest
-          inlineScript: |
-           
-            az storage blob upload-batch --source $GITHUB_WORKSPACE/${{ secrets.REPO_FOLDER_PATH }}/ --destination ${{ secrets.CONTAINER_NAME }} --account-name ${{ secrets.STORAGE_ACCOUNT_NAME }} --AZURE_CREDENTIALS ${{ secrets.AZURE_CREDENTIALS }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+        [13:14] Arati Jayavant Shibe
+name: Deploy Config to ADLS
+ 
+on:
+  push:
+    branches:
+      - main # Adjust this according to your branch name
+ 
+jobs:
+  deploy:
+    runs-on: ubuntu-latest # You can change the OS if necessary
+ 
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+ 
+    - name: Echo REPO_FOLDER_PATH
+      run: echo "${{ secrets.REPO_FOLDER_PATH }}"
+ 
+    - name: Log in to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+ 
+    - name: Install Azure CLI
+      run: |
+        curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+ 
+    - name: Upload files to Azure Blob Storage
+      run: |
+        az storage blob upload-batch \
+          --source $GITHUB_WORKSPACE/${{ secrets.REPO_FOLDER_PATH }} \
+          --destination ${{ secrets.CONTAINER_NAME }} \
+          --account-name ${{ secrets.STORAGE_ACCOUNT_NAME }}
